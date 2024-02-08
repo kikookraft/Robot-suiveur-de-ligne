@@ -17,8 +17,17 @@ void stopMotor2();
 // regler la vitesse du moteur 2 (0-255)
 void speedMotor2(int vitesse);
 
+// smooth le démarrage / arret des moteurs
+void smoothStartMotor1();
+void smoothStopMotor1();
+void smoothStartMotor2();
+void smoothStopMotor2();
+
+
+
 // fonction test
 void test1();
+void test2();
 
 //Ports de commande des moteurs
 #define motorIN1 7
@@ -34,12 +43,11 @@ void test1();
 #define CAPTEUR_LEFT 13
 #define CAPTEUR_RIGHT 12
 
+// lissage du démarrage / arret des moteurs
+#define SMOOTHING 1
 // gestions du moteur (temporaire)
-int state = MIN_PWM; // evite de demarrer a 0 car le moteur ne demarre pas
-int down = 0;
-int dir = 1; // 1 = avance, 0 = recule
-
-int test = 0;
+int PWM1 = 0; // vitesse moteur 1
+int PWM2 = 0; // vitesse moteur 2
 
 void setup() {
     // Configuration des ports en mode "sortie"
@@ -56,11 +64,14 @@ void setup() {
   stopMotor2();
   speedMotor1(0);
   speedMotor2(0);
+
+  Serial.begin(9600);
 }
 
 // ----------------- Boucle principale -----------------
 void loop() {
   test1();
+  // test2();
 }
 
 
@@ -105,23 +116,99 @@ void speedMotor2(int vitesse) {
   analogWrite(ENA, vitesse);
 }
 
+// ----------------- smooth le démarrage / arret des moteurs -----------------
+// ces fonctions ne doivent pas etre bloquantes
+void smoothStartMotor1(int direction) {
+  if (PWM1 < MIN_PWM) {
+    PWM1 = MIN_PWM;
+  } else if (PWM1 + SMOOTHING < 255) {
+    PWM1 += SMOOTHING;
+  } else if (PWM1 + SMOOTHING > 255) {
+    PWM1 = 255;
+  }
+  
+  if (direction == 1) {
+    forwardMotor1();
+  } else {
+    backwardMotor1();
+  }
+  speedMotor1(PWM1);
+  delay(1);
+}
+
+void smoothStopMotor1() {
+  if (PWM1 > MIN_PWM) {
+    PWM1 -= SMOOTHING;
+  } else {
+    PWM1 = 0;
+    stopMotor1();
+  }
+  speedMotor1(PWM1);
+  delay(1);
+}
+
+//moteur 2
+void smoothStartMotor2(int direction) {
+  if (PWM2 < MIN_PWM) {
+    PWM2 = MIN_PWM;
+  } else if (PWM2 + SMOOTHING < 255) {
+    PWM2 += SMOOTHING;
+  } else if (PWM2 + SMOOTHING > 255) {
+    PWM2 = 255;
+  }
+
+  if (direction == 1) {
+    forwardMotor2();
+  } else {
+    backwardMotor2();
+  }
+  speedMotor2(PWM2);
+  delay(1);
+}
+
+void smoothStopMotor2() {
+  if (PWM2 > MIN_PWM) {
+    PWM2 -= SMOOTHING;
+  } else {
+    PWM2 = 0;
+    stopMotor2();
+  }
+  speedMotor2(PWM2);
+  delay(1);
+}
 
 // ----------------- Fonctions de tests random -----------------
 void test1() {
   // si le capteur gauche est actif allumer moteur 1
   if (digitalRead(CAPTEUR_LEFT) == LOW) {
-    forwardMotor1();
-    speedMotor1(255);
+    smoothStartMotor1(1);
+    // Serial.println(PWM1);
   } else {
-    stopMotor1();
-    speedMotor1(0);
+    smoothStopMotor1();
   }
   // si le capteur droit est actif allumer moteur 2
   if (digitalRead(CAPTEUR_RIGHT) == LOW) {
+    smoothStartMotor2(1);
+    // Serial.println(PWM2);
+  } else {
+    smoothStopMotor2();
+  }
+}
+
+void test2() {
+  // comme test 1 mais sans la fluidité
+  if (digitalRead(CAPTEUR_LEFT) == LOW) {
+    forwardMotor1();
+    Serial.println("capteur gauche");
+    speedMotor1(255);
+  } else {
+    stopMotor1();
+  }
+  if (digitalRead(CAPTEUR_RIGHT) == LOW) {
     forwardMotor2();
+    Serial.println("capteur droit");
     speedMotor2(255);
   } else {
     stopMotor2();
-    speedMotor2(0);
   }
 }
