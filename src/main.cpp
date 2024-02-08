@@ -5,63 +5,96 @@ void avance();
 void arriere();
 void stop();
 void vitesse(int vitesse);
+void test1();
+void test2();
+void test3();
 
 //Ports de commande du moteur B
-int motorIN3 = 9;
-int motorIN4 = 8;
-int ENB = 5;
+#define motorIN1 7
+#define motorIN2 6
+#define motorIN3 5
+#define motorIN4 4
+#define ENB 10
+#define ENA 11
+#define MIN_PWM 50
+
+#define capteur 13
  
 // gestions du moteur
-int state = 0;
+int state = MIN_PWM; // evite de demarrer a 0 car le moteur ne demarre pas
 int down = 0;
-int avant = 1;
-int cycle = 0;
+int dir = 1; // 1 = avance, 0 = recule
+
+int test = 0;
 
 void setup() {
     // Configuration des ports en mode "sortie"
     pinMode(motorIN3, OUTPUT);
     pinMode(motorIN4, OUTPUT);
     pinMode(ENB, OUTPUT);
-    Serial.begin(9600);
+
+    pinMode(capteur, INPUT);
     avance();
 }
  
 void loop() {
-  // gestion de la vitesse et de la direction
+  test3();
+  //test2();
+  //test1();
+}
+
+void test3() {
+  if (digitalRead(capteur) == LOW) {
+    stop();
+  } else {
+    avance();
+    vitesse(255);
+  }
+  delay(5);
+
+}
+
+void test2() {
+   avance();
+  vitesse(255);
+  delay(2000);
+  stop();
+  delay(1000);
+  arriere();
+  vitesse(255);
+  delay(2000);
+  stop();
+  delay(1000);
+}
+
+void test1() {
+  // gestion de la vitesse
   if (state < 255 && down == 0) {
     state++;
   } else {
     down = 1;
   }
-  if (state > 0 && down == 1) {
+  if (state > MIN_PWM && down == 1) {
     state--;
   } else {
     down = 0;
-    if (avant == 1) {
-      avant = 0;
+  }
+
+  // gestion de la direction
+  if (state == MIN_PWM && down == 1) {
+    if (dir == 1) {
+      arriere();
+      dir = 0;
     } else {
-      avant = 1;
+      avance();
+      dir = 1;
     }
+    state = MIN_PWM;
   }
 
-  // // envoi des commandes
-  // if (avant == 1) {
-  //   avance();
-  // } else {
-  //   arriere();
-  // }
   vitesse(state);
-  delay(1);
+  delay(5);
 
-  // affichage de la vitesse
-  Serial.print("Vitesse : ");
-  Serial.print(state);
-  Serial.print(" -- Direction : ");
-  if (avant == 1) {
-    Serial.println("Avant");
-  } else {
-    Serial.println("Arriere");
-  }
 }
 
 void avance() {
