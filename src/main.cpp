@@ -108,5 +108,20 @@ void speedMotor2(int vitesse) {
 
 // ----------------- Fonctions de tests random -----------------
 void test1() {
-  
+  // si le capteur gauche est actif allumer moteur 1
+  if (digitalRead(CAPTEUR_LEFT) == LOW) {
+    forwardMotor1();
+    speedMotor1(255);
+  } else {
+    stopMotor1();
+    speedMotor1(0);
+  }
+  // si le capteur droit est actif allumer moteur 2
+  if (digitalRead(CAPTEUR_RIGHT) == LOW) {
+    forwardMotor2();
+    speedMotor2(255);
+  } else {
+    stopMotor2();
+    speedMotor2(0);
+  }
 }
