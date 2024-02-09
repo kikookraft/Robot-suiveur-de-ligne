@@ -181,3 +181,27 @@ void smoothStopMotor2() {
   speedMotor2(PWM2);
   delay(SMOOTHING_DELAY);
 }
+
+
+// ----------------- ralentissement fluide des moteurs -----------------
+// ralentir moteur 1
+void slowDownMotor1(int vitesse) {
+  if (PWM1 > vitesse) {
+    PWM1 -= SMOOTHING;
+  } else {
+    PWM1 = vitesse;
+  }
+  speedMotor1(PWM1);
+  delay(SMOOTHING_DELAY);
+}
+
+// ralentir moteur 2
+void slowDownMotor2(int vitesse) {
+  if (PWM2 > vitesse) {
+    PWM2 -= SMOOTHING;
+  } else {
+    PWM2 = vitesse;
+  }
+  speedMotor2(PWM2);
+  delay(SMOOTHING_DELAY);
+}
