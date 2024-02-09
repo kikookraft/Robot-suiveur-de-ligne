@@ -4,6 +4,7 @@
 # include "sensor.h"
 
 #define MAX_SPEED 255
+#define SWLOWING_MULTIPLIER 4
 // déclaration des fonctions de test
 void test1();
 void test2();
@@ -111,11 +112,11 @@ void test3() {
   // fonctionne dans le scénario 2 capteurs
   // ce test utilise les deux méthode en fonction de la position du capteur
   if (SENSOR_LEFT()) {
-    smoothStartMotor1(1);
+    slowDownMotor1(MAX_SPEED/SWLOWING_MULTIPLIER);
     smoothStopMotor2();
   } else if (SENSOR_RIGHT()) {
     smoothStopMotor1();
-    smoothStartMotor2(1);
+    slowDownMotor2(MAX_SPEED/SWLOWING_MULTIPLIER);
   } else {
     smoothStartMotor1(1);
     smoothStartMotor2(1);
