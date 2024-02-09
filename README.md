@@ -10,6 +10,11 @@ Quand le capteur infrarouge est a `LOW` c'est qu'il détecte le sol blanc.
 Sinon c'est qu'il détecte le sol noir.
 > Le capteurs renvoi un `HIGH` quand il detecte la ligne noire.
 
+Nous avons 3 capteurs infrarouges pour détecter les lignes noires:
+- `CAPTEUR_LEFT` : est + a gauche de la ligne (ne la detecte pas par defaut), branché sur la pin 13
+- `CAPTEUR_MIDDLE` : est au milieu de la ligne (capte au maximum la ligne), branché sur la pin 12
+- `CAPTEUR_RIGHT` : est + a droite de la ligne (ne la detecte pas par defaut), branché sur la pin 11
+
 Lien utile : [Utilisation module infrarouge](https://www.instructables.com/How-to-Use-TCRT5000-IR-Sensor-Module-With-Arduino-/)  
 
 > ! Petit tip !  
