@@ -39,3 +39,14 @@ Il y a actuellement deux moyens de controller les moteurs:
 La manière fluide peut potentiellement faire gagner du temps sur les lignes droites.  
 Exemple: si en ligne droite le robot est legèrement décalé (ce qui arrivera forcement en fin de virage) au lieu de completement arrêter le moteur puis le démarer, on peut **faire déccelerer lentement le 1er moteur pendant que l'autre tourne a fond** pour repartir droit sans perdre trop de temps.  
 Car **si on arrête le moteur completement, le robot va perdre plus d'inertie et donc mettre plus de temps a redémarrer**. De plus si un coté est arrêté et l'autre non, le robot va tourner beaucoup plus brusquement et va donc se mettre a faire des zigzags en ligne droite (donc pas ouf).
+  
+Cependant la fluiditée peut faire perde beaucoup de temps dans les virages (a verifier).  
+Donc soit on prend une des deux méthodes, soit on fait un mix des deux en faisant un système de détection de virage pour switcher entre les deux.
+
+
+## TODO
+- [ ] Tester les deux méthode (simple et fluide) pour voir laquelle est la plus efficace en **ligne droite** puis **en virage**
+- [ ] Faire un système de détection de virage pour switcher entre les deux méthodes
+- [ ] Refactorer le code pour le rendre orienté objet.  
+Parce que actuellement avoir plusieures fonctions similaires pour chaque moteur avec juste 2 variable qui changent, c'est pas ouf.
+- [x] Manger des pâtes
