@@ -7,6 +7,7 @@
 // déclaration des fonctions de test
 void test1();
 void test2();
+void test3();
 
 
 // ----------------- Initialisation -----------------
@@ -21,8 +22,9 @@ void setup() {
 
 // ----------------- Boucle principale -----------------
 void loop() {
-  test1();
+  // test1();
   // test2();
+  test3();
 }
 
 
@@ -64,6 +66,8 @@ void test2() {
 }
 
 void test3() {
+  #if TROIS_CAPTEURS
+  // fonctionne dans le scénario 3 capteurs
   // ce test utilise les deux méthode en fonction de la position du capteur
   switch (linePosition()) {
   case -2:
@@ -97,9 +101,24 @@ void test3() {
     break;
 
   default:
-    // si aucun capteur n'est actif alors on arrete les deux moteurs
-    stopMotor1();
-    stopMotor2();
+    // si aucun capteur n'est actif alors on va droit et on va retrouver la ligne
+    smoothStartMotor1(1);
+    smoothStartMotor2(1);
     break;
   }
+
+  #else
+  // fonctionne dans le scénario 2 capteurs
+  // ce test utilise les deux méthode en fonction de la position du capteur
+  if (SENSOR_LEFT()) {
+    smoothStartMotor1(1);
+    smoothStopMotor2();
+  } else if (SENSOR_RIGHT()) {
+    smoothStopMotor1();
+    smoothStartMotor2(1);
+  } else {
+    smoothStartMotor1(1);
+    smoothStartMotor2(1);
+  }
+  #endif
 }
