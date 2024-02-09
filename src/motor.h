@@ -5,14 +5,14 @@
 #define motorIN2 6
 #define motorIN3 5
 #define motorIN4 4
-#define ENB 10
-#define ENA 11
+#define ENB 9
+#define ENA 10
 
 // vitesse minimale du moteur pour eviter de caler (utilisé pour les fonction smooth...)
 #define MIN_PWM 50
 
 // lissage du démarrage / arret des moteurs
-#define SMOOTHING 2 // valeur à ajouter ou retirer à la vitesse
+#define SMOOTHING 1 // valeur à ajouter ou retirer à la vitesse
 #define SMOOTHING_DELAY 1 // temps d'attente entre chaque ajout ou retrait de vitesse
 
 // TODO: intégrer ces variables dans une structure ou dans des classes pour éviter les variables globales
