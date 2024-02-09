@@ -82,6 +82,27 @@ void speedMotor2(int vitesse) {
 }
 
 
+// ----------------- démarage / arret classique des moteurs -----------------
+// démarage moteur 1
+void startMotor1(int direction, int vitesse) {
+  if (direction == 1) {
+    forwardMotor1();
+  } else {
+    backwardMotor1();
+  }
+  speedMotor1(vitesse);
+}
+
+// démarage moteur 2
+void startMotor2(int direction, int vitesse) {
+  if (direction == 1) {
+    forwardMotor2();
+  } else {
+    backwardMotor2();
+  }
+  speedMotor2(vitesse);
+}
+
 // ----------------- smooth le démarrage / arret des moteurs -----------------
 // fonction qui necessite d'être appelée plusieures fois (explication de ce choix dans la doc partie #moteurs)
 // démarage fluide moteur 1

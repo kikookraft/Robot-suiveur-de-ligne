@@ -1,8 +1,9 @@
 #include <Arduino.h>
 // import des fonctions utiles pour le moteur
 # include "motor.h"
-#include "sensor.h"
+# include "sensor.h"
 
+#define MAX_SPEED 255
 // déclaration des fonctions de test
 void test1();
 void test2();
@@ -59,5 +60,46 @@ void test2() {
     speedMotor2(255);
   } else {
     stopMotor2();
+  }
+}
+
+void test3() {
+  // ce test utilise les deux méthode en fonction de la position du capteur
+  switch (linePosition()) {
+  case -2:
+    // si la ligne est à l'extreme gauche alors on arrete le moteur 1 et on démarre le moteur 2
+    stopMotor1();
+    startMotor2(1, MAX_SPEED);
+    break;
+  
+  case -1:
+    // si la ligne est à gauche alors on ralentis le moteur 1 et on laisse le moteur 2 à la vitesse maximale
+    smoothStopMotor1();
+    startMotor2(1, MAX_SPEED);
+    break;
+  
+  case 0:
+    // si la ligne est au centre alors on accélère a nouveau
+    smoothStartMotor1(1);
+    smoothStartMotor2(1);
+    break;
+
+  case 1:
+    // si la ligne est à droite alors on laisse le moteur 1 à la vitesse maximale et on ralentis le moteur 2
+    startMotor1(1, MAX_SPEED);
+    smoothStopMotor2();
+    break;
+
+  case 2:
+    // si la ligne est à l'extreme droite alors on démarre le moteur 1 et on arrete le moteur 2
+    startMotor1(1, MAX_SPEED);
+    stopMotor2();
+    break;
+
+  default:
+    // si aucun capteur n'est actif alors on arrete les deux moteurs
+    stopMotor1();
+    stopMotor2();
+    break;
   }
 }
