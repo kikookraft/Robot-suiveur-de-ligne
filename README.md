@@ -49,4 +49,3 @@ Donc soit on prend une des deux méthodes, soit on fait un mix des deux en faisa
 - [ ] Faire un système de détection de virage pour switcher entre les deux méthodes
 - [ ] Refactorer le code pour le rendre orienté objet.  
 Parce que actuellement avoir plusieures fonctions similaires pour chaque moteur avec juste 2 variable qui changent, c'est pas ouf.
-- [x] Manger des pâtes
