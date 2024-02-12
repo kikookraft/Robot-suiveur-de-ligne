@@ -9,7 +9,6 @@ Sinon pour juste voir le code, tout se situe dans le dossier `src` et le fichier
 Quand le capteur infrarouge est a `LOW` c'est qu'il détecte le sol blanc.
 Sinon c'est qu'il détecte le sol noir.
 > Le capteurs renvoi un `HIGH` quand il detecte la ligne noire.
-
 Si nous avons 3 capteurs infrarouges pour détecter les lignes noires:
 - `CAPTEUR_LEFT` : est + a gauche de la ligne (ne la detecte pas par defaut), branché sur la pin 13
 - `CAPTEUR_MIDDLE` : est au milieu de la ligne (capte au maximum la ligne), branché sur la pin 12
@@ -17,9 +16,9 @@ Si nous avons 3 capteurs infrarouges pour détecter les lignes noires:
 
 
 Lien utile : [Utilisation module infrarouge](https://www.instructables.com/How-to-Use-TCRT5000-IR-Sensor-Module-With-Arduino-/)  
-
-> ! Petit tip !  
-> Le capteur doit être a moin de 4.5cm du sol *(4cm pour être safe)* sinon il detecte plus rien.
+### Mesures
+Le capteur capte le blanc a une distance max de **2.7cm** (depuis le bas de la led, sinon 3.8cm depuis le circuit imprimé).
+L'épaisseur est de 1.2cm entre le bout des led et le circuit, sinon l'épaisseur globale est de 1.8cm.
 
 ## MOTEURS
 Les moteurs sont controlés par un [module pont en H](https://arduino.blaisepascal.fr/pont-en-h-l298n/) 
