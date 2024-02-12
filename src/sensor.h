@@ -10,10 +10,7 @@
 void initSensor() {
     pinMode(CAPTEUR_LEFT, INPUT);
     pinMode(CAPTEUR_RIGHT, INPUT);
-
-    #if TROIS_CAPTEURS
     pinMode(CAPTEUR_MIDDLE, INPUT); 
-    #endif
 }
 
 // ----------------- Fonctions de base -----------------
@@ -41,103 +38,5 @@ int SENSOR_RIGHT() {
         return 1;
     } else {
         return 0;
-    }
-}
-
-// ----------------- Fonctions avancées -----------------
-// renvoie 1 si le capteur gauche et du milieu sont actifs
-int lineToLeft() {
-    if (SENSOR_LEFT() && SENSOR_MIDDLE()) {
-        return 1;
-    } else {
-        return 0;
-    }
-}
-
-// renvoie 1 si seul le capteur gauche est actif
-int extremeLeft() {
-    if (SENSOR_LEFT() && !SENSOR_MIDDLE() && !SENSOR_RIGHT()) {
-        return 1;
-    } else {
-        return 0;
-    }
-}
-
-// renvoie 1 si le capteur droit et du milieu sont actifs
-int lineToRight() {
-    if (SENSOR_RIGHT() && SENSOR_MIDDLE()) {
-        return 1;
-    } else {
-        return 0;
-    }
-}
-
-// renvoie 1 si seul le capteur droit est actif
-int extremeRight() {
-    if (!SENSOR_LEFT() && !SENSOR_MIDDLE() && SENSOR_RIGHT()) {
-        return 1;
-    } else {
-        return 0;
-    }
-}
-
-
-// renvoie 1 si les 3 capteurs sont actifs
-int lineToCenter() {
-    if (SENSOR_LEFT() && SENSOR_MIDDLE() && SENSOR_RIGHT()) {
-        return 1;
-    } else {
-        return 0;
-    }
-}
-
-// renvoie 1 si aucun capteur n'est actif
-int noLine() {
-    if (!SENSOR_LEFT() && !SENSOR_MIDDLE() && !SENSOR_RIGHT()) {
-        return 1;
-    } else {
-        return 0;
-    }
-}
-
-// renvoie 1 si un seul capteur est actif
-int only1ActiveSensor() {
-    if ((SENSOR_LEFT() && !SENSOR_MIDDLE() && !SENSOR_RIGHT()) || (!SENSOR_LEFT() && SENSOR_MIDDLE() && !SENSOR_RIGHT()) || (!SENSOR_LEFT() && !SENSOR_MIDDLE() && SENSOR_RIGHT())) {
-        return 1;
-    } else {
-        return 0;
-    }
-}
-
-// renvoie 1, 2 ou 3 en fonction du capteur actif (1 = gauche, 2 = milieu, 3 = droit, 0 = aucun)
-int whichLine() {
-    if (!only1ActiveSensor()) {
-        return -1;
-    } else if (SENSOR_LEFT()) {
-        return 1;
-    } else if (SENSOR_MIDDLE()) {
-        return 2;
-    } else if (SENSOR_RIGHT()) {
-        return 3;
-    } else {
-        return 0;
-    }
-}
-
-// renvoie un entier entre -2 et 2 en fonction de la position de la ligne (0 = centre, -2 = extreme gauche, 2 = extreme droite, 1 = milieu gauche, -1 = milieu droite)
-int linePosition() {
-    if (lineToCenter()) {
-        return 0;
-    } else if (lineToLeft()) {
-        return -1;
-    } else if (lineToRight()) {
-        return 1;
-    } else if (extremeLeft()) {
-        return -2;
-    } else if (extremeRight()) {
-        return 2;
-    } else {
-        // si aucun capteur n'est actif
-        return -3;
     }
 }
