@@ -5,7 +5,6 @@
 #define CAPTEUR_MIDDLE 12
 #define CAPTEUR_RIGHT 11
 
-#define TROIS_CAPTEURS 0 // permet de switch les fonctions de test entre 3 capteurs et 2 capteurs
 
 // Initialisation des capteurs
 void initSensor() {
@@ -28,7 +27,6 @@ int SENSOR_LEFT() {
 }
 
 // Renvoi 1 si le capteur detecte la ligne, 0 sinon
-#if TROIS_CAPTEURS
 int SENSOR_MIDDLE() {
     if (digitalRead(CAPTEUR_MIDDLE) == LOW) {
         return 1;
@@ -36,7 +34,6 @@ int SENSOR_MIDDLE() {
         return 0;
     }
 }
-#endif
 
 // Renvoi 1 si le capteur detecte la ligne, 0 sinon
 int SENSOR_RIGHT() {
@@ -48,7 +45,6 @@ int SENSOR_RIGHT() {
 }
 
 // ----------------- Fonctions avancées -----------------
-#if TROIS_CAPTEURS // fonctions pour 3 capteurs
 // renvoie 1 si le capteur gauche et du milieu sont actifs
 int lineToLeft() {
     if (SENSOR_LEFT() && SENSOR_MIDDLE()) {
@@ -145,57 +141,3 @@ int linePosition() {
         return -3;
     }
 }
-
-#else // fonctions pour 2 capteurs
-
-
-// renvoie 1 si seul le capteur gauche est actif
-int extremeLeft() {
-    if (SENSOR_LEFT() && !SENSOR_RIGHT()) {
-        return 1;
-    } else {
-        return 0;
-    }
-}
-
-// renvoie 1 si seul le capteur droit est actif
-int extremeRight() {
-    if (!SENSOR_LEFT() && SENSOR_RIGHT()) {
-        return 1;
-    } else {
-        return 0;
-    }
-}
-
-// renvoie 1 si les 2 capteurs sont actifs
-int lineToCenter() {
-    if (SENSOR_LEFT() && SENSOR_RIGHT()) {
-        return 1;
-    } else {
-        return 0;
-    }
-}
-
-// renvoie 1 si aucun capteur n'est actif
-int noLine() {
-    if (!SENSOR_LEFT() && !SENSOR_RIGHT()) {
-        return 1;
-    } else {
-        return 0;
-    }
-}
-
-//renvoi un int entre -1 et 1 en fonction de la position de la ligne (0 = centre, -1 = gauche, 1 = droite)
-int linePosition() {
-    if (lineToCenter()) {
-        return 0;
-    } else if (extremeLeft()) {
-        return -1;
-    } else if (extremeRight()) {
-        return 1;
-    } else {
-        // si aucun capteur n'est actif
-        return -2;
-    }
-}
-#endif
