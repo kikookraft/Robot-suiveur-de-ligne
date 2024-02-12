@@ -36,7 +36,14 @@ void update_trigger() {
 // Si un capteur est actif, le robot ralentit le moteur correspondant jusqu'à ce que le capteur central soit actif
 void driveRobot() {
   // Si le capteur gauche est actif
-  if (triggered_left) {
+  if (triggered_left && triggered_right) {
+    slowDownMotor1(MAX_SPEED/SWLOWING_MULTIPLIER);
+    slowDownMotor2(MAX_SPEED/SWLOWING_MULTIPLIER);
+    if (SENSOR_MIDDLE()) {
+      triggered_left = 0;
+      triggered_right = 0;
+    }
+  } else if (triggered_left) {
     slowDownMotor1(MAX_SPEED/SWLOWING_MULTIPLIER);
     smoothStopMotor2();
     if (SENSOR_MIDDLE()) {
