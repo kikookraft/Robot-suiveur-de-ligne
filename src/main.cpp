@@ -3,7 +3,7 @@
 # include "motor.h"
 # include "sensor.h"
 
-#define SWLOWING_MULTIPLIER 2
+#define SWLOWING_MULTIPLIER 1.8
 // déclaration des fonctions de test
 void test1();
 void test2();
