@@ -3,12 +3,12 @@
 # include "motor.h"
 # include "sensor.h"
 
-#define MAX_SPEED 255
-#define SWLOWING_MULTIPLIER 4
+#define SWLOWING_MULTIPLIER 2
 // déclaration des fonctions de test
 void test1();
 void test2();
 void test3();
+void test4();
 
 
 // ----------------- Initialisation -----------------
@@ -25,7 +25,8 @@ void setup() {
 void loop() {
   // test1();
   // test2();
-  test3();
+  // test3();
+  test4();
 }
 
 
@@ -70,43 +71,6 @@ void test3() {
   #if TROIS_CAPTEURS
   // fonctionne dans le scénario 3 capteurs
   // ce test utilise les deux méthode en fonction de la position du capteur
-  switch (linePosition()) {
-  case -2:
-    // si la ligne est à l'extreme gauche alors on arrete le moteur 1 et on démarre le moteur 2
-    stopMotor1();
-    startMotor2(1, MAX_SPEED);
-    break;
-  
-  case -1:
-    // si la ligne est à gauche alors on ralentis le moteur 1 et on laisse le moteur 2 à la vitesse maximale
-    smoothStopMotor1();
-    startMotor2(1, MAX_SPEED);
-    break;
-  
-  case 0:
-    // si la ligne est au centre alors on accélère a nouveau
-    smoothStartMotor1(1);
-    smoothStartMotor2(1);
-    break;
-
-  case 1:
-    // si la ligne est à droite alors on laisse le moteur 1 à la vitesse maximale et on ralentis le moteur 2
-    startMotor1(1, MAX_SPEED);
-    smoothStopMotor2();
-    break;
-
-  case 2:
-    // si la ligne est à l'extreme droite alors on démarre le moteur 1 et on arrete le moteur 2
-    startMotor1(1, MAX_SPEED);
-    stopMotor2();
-    break;
-
-  default:
-    // si aucun capteur n'est actif alors on va droit et on va retrouver la ligne
-    smoothStartMotor1(1);
-    smoothStartMotor2(1);
-    break;
-  }
 
   #else
   // fonctionne dans le scénario 2 capteurs
@@ -122,4 +86,51 @@ void test3() {
     smoothStartMotor2(1);
   }
   #endif
+}
+
+int triggered_left = 0;
+int triggered_right = 0;
+int allow_trigger_left = 1;
+int allow_trigger_right = 1;
+
+void update_trigger() {
+  if (SENSOR_LEFT()) {
+    if (allow_trigger_left) {
+      triggered_left = 1;
+      allow_trigger_left = 0;
+    }
+  } else {
+    allow_trigger_left = 1;
+  }
+  if (SENSOR_RIGHT()) {
+    if (allow_trigger_right) {
+      triggered_right = 1;
+      allow_trigger_right = 0;
+    }
+  } else {
+    allow_trigger_right = 1;
+  }
+
+}
+
+
+void test4() {
+  update_trigger();
+
+  if (triggered_left) {
+    slowDownMotor1(MAX_SPEED/SWLOWING_MULTIPLIER);
+    smoothStopMotor2();
+    if (SENSOR_MIDDLE()) {
+      triggered_left = 0;
+    }
+  } else if (triggered_right) {
+    smoothStopMotor1();
+    slowDownMotor2(MAX_SPEED/SWLOWING_MULTIPLIER);
+    if (SENSOR_MIDDLE()) {
+      triggered_right = 0;
+    }
+  } else {
+    smoothStartMotor1(1);
+    smoothStartMotor2(1);
+  }
 }
