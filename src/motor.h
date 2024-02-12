@@ -136,9 +136,7 @@ void smoothStopMotor1() {
   } else {
     // si la vitesse est inférieure à la vitesse minimale alors on arrete le moteur directement
     PWM1 = 0;
-    stopMotor1();
   }
-
   // appliquer la vitesse
   speedMotor1(PWM1);
   delay(SMOOTHING_DELAY);
@@ -175,9 +173,7 @@ void smoothStopMotor2() {
   } else {
     // si la vitesse est inférieure à la vitesse minimale alors on arrete le moteur directement
     PWM2 = 0;
-    stopMotor2();
   }
-
   // appliquer la vitesse
   speedMotor2(PWM2);
   delay(SMOOTHING_DELAY);
