@@ -10,6 +10,7 @@
 
 // vitesse minimale du moteur pour eviter de caler (utilisé pour les fonction smooth...)
 #define MIN_PWM 50
+#define MAX_SPEED 255
 
 // lissage du démarrage / arret des moteurs
 #define SMOOTHING 1 // valeur à ajouter ou retirer à la vitesse
@@ -109,10 +110,10 @@ void startMotor2(int direction, int vitesse) {
 void smoothStartMotor1(int direction) {
   if (PWM1 < MIN_PWM) {
     PWM1 = MIN_PWM;
-  } else if (PWM1 + SMOOTHING < 255) {
+  } else if (PWM1 + SMOOTHING < MAX_SPEED) {
     PWM1 += SMOOTHING;
-  } else if (PWM1 + SMOOTHING > 255) {
-    PWM1 = 255;
+  } else if (PWM1 + SMOOTHING > MAX_SPEED) {
+    PWM1 = MAX_SPEED;
   }
   
   // si direction = 1 alors avancer, sinon reculer
@@ -148,10 +149,10 @@ void smoothStopMotor1() {
 void smoothStartMotor2(int direction) {
   if (PWM2 < MIN_PWM) {
     PWM2 = MIN_PWM;
-  } else if (PWM2 + SMOOTHING < 255) {
+  } else if (PWM2 + SMOOTHING < MAX_SPEED) {
     PWM2 += SMOOTHING;
-  } else if (PWM2 + SMOOTHING > 255) {
-    PWM2 = 255;
+  } else if (PWM2 + SMOOTHING > MAX_SPEED) {
+    PWM2 = MAX_SPEED;
   }
 
   // si direction = 1 alors avancer, sinon reculer
