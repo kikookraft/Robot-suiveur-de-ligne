@@ -15,7 +15,6 @@ Si nous avons 3 capteurs infrarouges pour détecter les lignes noires:
 - `CAPTEUR_MIDDLE` : est au milieu de la ligne (capte au maximum la ligne), branché sur la pin 12
 - `CAPTEUR_RIGHT` : est + a droite de la ligne (ne la detecte pas par defaut), branché sur la pin 11
 
-Si nous avons juste 2 capteurs infrarouges pour détecter les lignes noires, on ignore le capteur du milieu.
 
 Lien utile : [Utilisation module infrarouge](https://www.instructables.com/How-to-Use-TCRT5000-IR-Sensor-Module-With-Arduino-/)  
 
