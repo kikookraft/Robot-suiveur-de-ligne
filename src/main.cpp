@@ -4,7 +4,7 @@
 # include "sensor.h"
 
 // ----------------- Variables globales -----------------
-#define SWLOWING_MULTIPLIER 1.5
+#define SWLOWING_MULTIPLIER 1.2
 
 int triggered_left = 0;
 int triggered_right = 0;
@@ -49,9 +49,10 @@ void driveRobot() {
     }
   } else if (triggered_left) {
     speedMotor1(MAX_SPEED/SWLOWING_MULTIPLIER);
-    // smoothStopMotor2();
+    forwardMotor1();
+    speedMotor2(MAX_SPEED/SWLOWING_MULTIPLIER);
     backwardMotor2();
-    speedMotor2(MAX_SPEED/1.5);
+    // stopMotor2();
     if (SENSOR_MIDDLE()) {
       triggered_left = 0;
     } else if (SENSOR_RIGHT()) {
@@ -60,10 +61,11 @@ void driveRobot() {
     }
   // Si le capteur droit est actif
   } else if (triggered_right) {
-    // smoothStopMotor1();
+    speedMotor1(MAX_SPEED/SWLOWING_MULTIPLIER);
     backwardMotor1();
-    speedMotor1(MAX_SPEED/1.5);
+    // stopMotor1();
     speedMotor2(MAX_SPEED/SWLOWING_MULTIPLIER);
+    forwardMotor2();
     if (SENSOR_MIDDLE()) {
       triggered_right = 0;
     } else if (SENSOR_LEFT()) {
@@ -71,8 +73,10 @@ void driveRobot() {
       triggered_right = 0;
     }
   } else {
-    smoothStartMotor1(1);
-    smoothStartMotor2(1);
+    forwardMotor1();
+    forwardMotor2();
+    speedMotor1(MAX_SPEED/SWLOWING_MULTIPLIER);
+    speedMotor2(MAX_SPEED/SWLOWING_MULTIPLIER);
   }
 }
 

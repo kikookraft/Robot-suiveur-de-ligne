@@ -9,8 +9,8 @@
 #define ENA 10
 
 // vitesse minimale du moteur pour eviter de caler (utilisé pour les fonction smooth...)
-#define MIN_PWM 50
-#define MAX_SPEED 80
+#define MIN_PWM 60
+#define MAX_SPEED 100
 
 // lissage du démarrage / arret des moteurs
 #define SMOOTHING 1 // valeur à ajouter ou retirer à la vitesse
@@ -130,12 +130,19 @@ void smoothStartMotor1(int direction) {
 }
 
 // arret fluide moteur 1
-void smoothStopMotor1() {
+void smoothStopMotor1(int reverse) {
   if (PWM1 > MIN_PWM) {
     PWM1 -= SMOOTHING;
   } else {
     // si la vitesse est inférieure à la vitesse minimale alors on arrete le moteur directement
     PWM1 = 0;
+    if (reverse) {
+      backwardMotor1();
+      smoothStartMotor1(0);
+    } else {
+      forwardMotor1();
+      smoothStartMotor1(1);
+    }
   }
   // appliquer la vitesse
   speedMotor1(PWM1);
@@ -167,12 +174,19 @@ void smoothStartMotor2(int direction) {
 }
 
 // arret fluide moteur 2
-void smoothStopMotor2() {
+void smoothStopMotor2(int reverse) {
   if (PWM2 > MIN_PWM) {
     PWM2 -= SMOOTHING;
   } else {
     // si la vitesse est inférieure à la vitesse minimale alors on arrete le moteur directement
     PWM2 = 0;
+    if (reverse) {
+      backwardMotor2();
+      smoothStartMotor2(0);
+    } else {
+      forwardMotor2();
+      smoothStartMotor2(1);
+    }
   }
   // appliquer la vitesse
   speedMotor2(PWM2);
