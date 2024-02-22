@@ -10,7 +10,7 @@
 
 // vitesse minimale du moteur pour eviter de caler (utilisé pour les fonction smooth...)
 #define MIN_PWM 50
-#define MAX_SPEED 100
+#define MAX_SPEED 80
 
 // lissage du démarrage / arret des moteurs
 #define SMOOTHING 1 // valeur à ajouter ou retirer à la vitesse

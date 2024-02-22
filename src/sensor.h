@@ -1,9 +1,9 @@
 #include <Arduino.h>
 
 // Definition des pins
-#define CAPTEUR_LEFT 13
+#define CAPTEUR_LEFT 11
 #define CAPTEUR_MIDDLE 12
-#define CAPTEUR_RIGHT 11
+#define CAPTEUR_RIGHT 13
 
 
 // Initialisation des capteurs
@@ -16,7 +16,7 @@ void initSensor() {
 // ----------------- Fonctions de base -----------------
 // Renvoi 1 si le capteur detecte la ligne, 0 sinon
 int SENSOR_LEFT() {
-    if (digitalRead(CAPTEUR_LEFT) == LOW) {
+    if (digitalRead(CAPTEUR_LEFT) == HIGH) {
         return 1;
     } else {
         return 0;
@@ -25,7 +25,7 @@ int SENSOR_LEFT() {
 
 // Renvoi 1 si le capteur detecte la ligne, 0 sinon
 int SENSOR_MIDDLE() {
-    if (digitalRead(CAPTEUR_MIDDLE) == LOW) {
+    if (digitalRead(CAPTEUR_MIDDLE) == HIGH) {
         return 1;
     } else {
         return 0;
@@ -34,7 +34,7 @@ int SENSOR_MIDDLE() {
 
 // Renvoi 1 si le capteur detecte la ligne, 0 sinon
 int SENSOR_RIGHT() {
-    if (digitalRead(CAPTEUR_RIGHT) == LOW) {
+    if (digitalRead(CAPTEUR_RIGHT) == HIGH) {
         return 1;
     } else {
         return 0;

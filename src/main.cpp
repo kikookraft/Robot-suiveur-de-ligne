@@ -4,7 +4,7 @@
 # include "sensor.h"
 
 // ----------------- Variables globales -----------------
-#define SWLOWING_MULTIPLIER 1.8
+#define SWLOWING_MULTIPLIER 1.5
 
 int triggered_left = 0;
 int triggered_right = 0;
@@ -37,6 +37,10 @@ void update_trigger() {
 void driveRobot() {
   // Si le capteur gauche est actif
   if (triggered_left && triggered_right) {
+    // backwardMotor1();
+    // backwardMotor2();
+    forwardMotor1();
+    forwardMotor2();
     slowDownMotor1(MAX_SPEED/SWLOWING_MULTIPLIER);
     slowDownMotor2(MAX_SPEED/SWLOWING_MULTIPLIER);
     if (SENSOR_MIDDLE()) {
@@ -44,16 +48,26 @@ void driveRobot() {
       triggered_right = 0;
     }
   } else if (triggered_left) {
-    slowDownMotor1(MAX_SPEED/SWLOWING_MULTIPLIER);
-    smoothStopMotor2();
+    speedMotor1(MAX_SPEED/SWLOWING_MULTIPLIER);
+    // smoothStopMotor2();
+    backwardMotor2();
+    speedMotor2(MAX_SPEED/1.5);
     if (SENSOR_MIDDLE()) {
+      triggered_left = 0;
+    } else if (SENSOR_RIGHT()) {
+      triggered_right = 1;
       triggered_left = 0;
     }
   // Si le capteur droit est actif
   } else if (triggered_right) {
-    smoothStopMotor1();
-    slowDownMotor2(MAX_SPEED/SWLOWING_MULTIPLIER);
+    // smoothStopMotor1();
+    backwardMotor1();
+    speedMotor1(MAX_SPEED/1.5);
+    speedMotor2(MAX_SPEED/SWLOWING_MULTIPLIER);
     if (SENSOR_MIDDLE()) {
+      triggered_right = 0;
+    } else if (SENSOR_LEFT()) {
+      triggered_left = 1;
       triggered_right = 0;
     }
   } else {
@@ -69,7 +83,21 @@ void setup() {
   initSensor();
 
   // Initialisation de la communication série (utile pour debug)
-  Serial.begin(9600);
+  // Serial.begin(9600);
+
+
+  //indiquer le démarrage du robot en reculant pendant 0.3 secondes
+  backwardMotor1();
+  backwardMotor2();
+  speedMotor1(MAX_SPEED);
+  speedMotor2(MAX_SPEED);
+  delay(200);
+  forwardMotor1();
+  forwardMotor2();
+  delay(200);
+  stopMotor1();
+  stopMotor2();
+  delay(500);
 }
 
 // ----------------- Boucle principale (loop) -----------------
